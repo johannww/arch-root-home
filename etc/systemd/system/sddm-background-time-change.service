@@ -1,0 +1,12 @@
+[Unit]
+Description=Change SDDM background based on time
+Before=sddm.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/logger "SDDM background changed based on time"
+ExecStart=/home/johann/startup/daemon-scripts/change_sddm_theme_based_on_time.sh
+
+[Install]
+WantedBy=multi-user.target
+
