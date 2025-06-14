@@ -18,7 +18,7 @@ cfdisk /dev/$DEV
 echo 0 > /sys/block/${DEV}/queue/rotational # force SSD detection if serial ports (USB) bridge the communication (FOR BTRFS)
 
 mkfs.fat -F 32 /dev/${DEV}2 #for efi partition
-cryptsetup luksFormat /dev/${DEV}3 # encrypt the /boot
+cryptsetup luksFormat /dev/${DEV}3 --pbkdf pbkdf2 # encrypt the /boot. GRUB only support pbkdf2, not argon
 cryptsetup luksOpen /dev/${DEV}3 boot
 mkfs.btrfs /dev/mapper/boot # for boot partition
 
@@ -479,7 +479,6 @@ go install github.com/jfeliu007/goplantuml # alternative
 yay -S numen # for voice dictation
 mkdir -p ~/.config/numen && ln -s ~/onedrive/ubuntu/numen/phrases/ ~/.config/numen/phrases
 cp ~/onedrive/ubuntu/numen/numen.service /lib/systemd/user/numen.service
-# TODO: check here
 sudo groupadd -f input
 sudo usermod -a -G input $USER
 
